@@ -1,4 +1,5 @@
 import nltk
+import os
 import streamlit as st
 import pickle
 from nltk.corpus import stopwords
@@ -7,15 +8,27 @@ from nltk.stem.porter import PorterStemmer
 
 ps = PorterStemmer()
 
-# Ensure required NLTK data is available in runtime (safe to call repeatedly)
+# Ensure required NLTK data is available in a writable local folder.
+# Create a local `nltk_data` directory in the repo (or fall back to /tmp)
+nl_dir = os.path.join(os.getcwd(), 'nltk_data')
 try:
-    nltk.data.find('tokenizers/punkt')
+    os.makedirs(nl_dir, exist_ok=True)
 except Exception:
-    nltk.download('punkt', quiet=True)
-try:
-    nltk.data.find('corpora/stopwords')
-except Exception:
-    nltk.download('stopwords', quiet=True)
+    nl_dir = '/tmp/nltk_data'
+
+# Prefer local nltk_data first
+if nl_dir not in nltk.data.path:
+    nltk.data.path.insert(0, nl_dir)
+
+def _ensure_nltk(resource_path, pkg_name=None):
+    try:
+        nltk.data.find(resource_path)
+    except LookupError:
+        name = pkg_name if pkg_name else resource_path.split('/')[-1]
+        nltk.download(name, download_dir=nl_dir, quiet=True)
+
+_ensure_nltk('tokenizers/punkt', 'punkt')
+_ensure_nltk('corpora/stopwords', 'stopwords')
 
 
 def transform_text(text):
