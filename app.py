@@ -29,6 +29,7 @@ def _ensure_nltk(resource_path, pkg_name=None):
 
 _ensure_nltk('tokenizers/punkt', 'punkt')
 _ensure_nltk('corpora/stopwords', 'stopwords')
+_ensure_nltk('tokenizers/punkt_tab/english', 'punkt_tab')
 
 
 def transform_text(text):
