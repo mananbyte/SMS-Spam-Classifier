@@ -7,6 +7,16 @@ from nltk.stem.porter import PorterStemmer
 
 ps = PorterStemmer()
 
+# Ensure required NLTK data is available in runtime (safe to call repeatedly)
+try:
+    nltk.data.find('tokenizers/punkt')
+except Exception:
+    nltk.download('punkt', quiet=True)
+try:
+    nltk.data.find('corpora/stopwords')
+except Exception:
+    nltk.download('stopwords', quiet=True)
+
 
 def transform_text(text):
     # Lower Case
@@ -37,7 +47,7 @@ def transform_text(text):
     return " ".join(y)
 
 
-tfidf = pickle.load(open('vectorizer.pkl.', 'rb'))
+tfidf = pickle.load(open('vectorizer.pkl', 'rb'))
 model = pickle.load(open('model.pkl', 'rb'))
 
 st.title('Spam Classifier')
