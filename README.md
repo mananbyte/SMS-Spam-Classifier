@@ -104,6 +104,12 @@ streamlit run app.py
 3. Select `mananbyte/SMS-Spam-Classifier`, branch `main`, and set the file path to `app.py`.
 4. Click **Deploy**. Streamlit will install dependencies from `requirements.txt` and run `app.py`.
 
+### Live demo
+
+You can view the live deployment here:
+
+- https://sms-spam-classifier-mananbyte.streamlit.app/
+
 Secrets and environment variables
 - If your `app.py` requires secrets (API keys), add them via the Streamlit app settings (Manage → Secrets).
 
